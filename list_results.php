@@ -28,6 +28,7 @@ if (!$client->getAccessToken()) {
 	run($analytics);
 }
 
+//Main method that runs through the whole process if we have all the credentials.
 function run(&$analytics) {
 	try {
 		$profileId = getFirstProfileId($analytics);
@@ -75,12 +76,13 @@ function getFirstprofileId(&$analytics) {
 	}
 }
 
+//Query the api to retrieve our results
 function getResults(&$analytics, &$profileId) {
 	$todaysDate = getTodaysDate();
 	return $analytics->data_ga->get(
 		'ga:' . $profileId,
 		$todaysDate,
-		date_sub($todaysDate, date_interval_create_from_date_string("30 days")),
+		date_sub($todaysDate, date_interval_create_from_date_string("30 days")),//The date 30 days ago from today
 		'ga:pageviews,ga:hostname,ga:pagePath,ga:pageTitle',
 		'ga:pagePath',
 		'-ga:pageviews',
